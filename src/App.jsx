@@ -14,24 +14,20 @@ function App() {
     left: "55%",
   });
 
-  // Today's date for the calendar
   const today = new Date().toLocaleDateString("en-CA");
 
-  // Show name confirmation popup
   const handleNameClick = () => {
     if (!confirmed && !showPopup) {
       setShowPopup(true);
     }
   };
 
-  // Confirm Stephie's name
   const confirmName = () => {
     setName("Stephie");
     setConfirmed(true);
     setShowPopup(false);
   };
 
-  // Submit name
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -40,7 +36,6 @@ function App() {
     }
   };
 
-  // Move NO button to a random position
   const moveNoButton = () => {
     const top = Math.floor(Math.random() * 55) + 5;
     const left = Math.floor(Math.random() * 52) + 3;
@@ -51,7 +46,6 @@ function App() {
     });
   };
 
-  // Confirm coffee date
   const confirmDate = (e) => {
     e.preventDefault();
 
@@ -60,7 +54,6 @@ function App() {
     }
   };
 
-  // Format selected date
   const formattedDate = selectedDate
     ? new Date(`${selectedDate}T12:00:00`).toLocaleDateString(
         "en-IN",
@@ -83,7 +76,7 @@ function App() {
 
       {/* PAGE 1: Welcome */}
       {page === "welcome" && (
-        <div className="main-card">
+        <div className="main-card welcome-card">
 
           <div className="heart-icon">💌</div>
 
@@ -91,10 +84,10 @@ function App() {
             A LITTLE SURPRISE FOR YOU
           </p>
 
-          <h1>
+          <h1 className="welcome-title">
             Hey there,
             <br />
-            beautiful!
+            beautiful! 💗
           </h1>
 
           <p className="description">
@@ -103,7 +96,6 @@ function App() {
           </p>
 
           <form onSubmit={handleSubmit}>
-
             <input
               type="text"
               placeholder="Enter your name..."
@@ -119,7 +111,6 @@ function App() {
             >
               Continue 💗
             </button>
-
           </form>
 
           <p className="bottom-note">
@@ -233,7 +224,6 @@ function App() {
 
           <div className="answer-area">
 
-            {/* YES button */}
             <button
               className="yes-btn"
               onClick={() => setPage("coffee")}
@@ -241,7 +231,6 @@ function App() {
               YES 💗
             </button>
 
-            {/* Moving NO button */}
             <button
               className="no-choice-btn moving-no"
               style={{
