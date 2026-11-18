@@ -1,16 +1,170 @@
 
-* {
+/* =========================================
+   STEPHIE INVITATION
+   GLOBAL STYLES - LAVENDER THEME 💜
+========================================= */
+
+/* RESET */
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-html,
-body,
-#root {
+/* HTML */
+
+html {
   width: 100%;
   min-height: 100%;
-  margin: 0;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
+/* BODY */
+
 body {
+  width: 100%;
   min-width: 320px;
+  min-height: 100vh;
+
+  font-family: 'DM Sans', sans-serif;
+
+  background-color: #f5efff;
+  color: #765394;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ROOT */
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+/* BUTTONS */
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* INPUTS */
+
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: 16px;
+}
+
+/* IMAGES AND MEDIA */
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* AUDIO */
+
+audio {
+  max-width: 100%;
+}
+
+/* LINKS */
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* SELECTION */
+
+::selection {
+  background: #d9c6f5;
+  color: #62427f;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5efff;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c8b3e8;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a98bd1;
+}
+
+/* FIREFOX SCROLLBAR */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #c8b3e8 #f5efff;
+}
+
+/* MOBILE TAP EFFECT */
+
+button,
+input {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ACCESSIBILITY */
+
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid #9875cf;
+  outline-offset: 3px;
+}
+
+/* REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* SMALL MOBILE SCREENS */
+
+@media (max-width: 380px) {
+  body {
+    min-width: 320px;
+  }
+}
+
+/* LANDSCAPE MOBILE */
+
+@media (max-height: 500px) and (orientation: landscape) {
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
 }

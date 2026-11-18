@@ -16,18 +16,21 @@ function App() {
 
   const today = new Date().toLocaleDateString("en-CA");
 
+  // Name confirmation popup
   const handleNameClick = () => {
     if (!confirmed && !showPopup) {
       setShowPopup(true);
     }
   };
 
+  // Confirm Stephie's name
   const confirmName = () => {
     setName("Stephie");
     setConfirmed(true);
     setShowPopup(false);
   };
 
+  // Continue to movie page
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -36,6 +39,7 @@ function App() {
     }
   };
 
+  // Move NO button
   const moveNoButton = () => {
     const top = Math.floor(Math.random() * 55) + 5;
     const left = Math.floor(Math.random() * 52) + 3;
@@ -46,6 +50,7 @@ function App() {
     });
   };
 
+  // Confirm coffee date
   const confirmDate = (e) => {
     e.preventDefault();
 
@@ -54,6 +59,7 @@ function App() {
     }
   };
 
+  // Format selected date
   const formattedDate = selectedDate
     ? new Date(`${selectedDate}T12:00:00`).toLocaleDateString(
         "en-IN",
@@ -96,6 +102,7 @@ function App() {
           </p>
 
           <form onSubmit={handleSubmit}>
+
             <input
               type="text"
               placeholder="Enter your name..."
@@ -111,6 +118,7 @@ function App() {
             >
               Continue 💗
             </button>
+
           </form>
 
           <p className="bottom-note">
@@ -127,63 +135,113 @@ function App() {
           <div className="heart-icon">🌷</div>
 
           <p className="small-heading">
-            JUST FOR YOU, {name.toUpperCase()}
+            A LITTLE SOMETHING ABOUT YOU
           </p>
 
           <h1>
-            So, Stephie...
+            Can I tell you
             <br />
-            <span>Can I tell you something?</span>
+            <span>something, Stephie?</span>
           </h1>
 
+          <p className="description">
+            I remember a few little things about you...
+            and I thought they deserved a special mention. 💗
+          </p>
+
+          {/* Hindi movie */}
           <div className="movie-box">
 
-            <p>🎬 Your favourite Hindi movie</p>
+            <p>🎬 YOUR FAVOURITE HINDI MOVIE</p>
 
             <h2>Kabhi Khushi Kabhie Gham</h2>
 
             <p className="movie-message">
-              Maybe you love the grand romance,
-              the family moments and all that drama.
+              A story full of love, emotions and unforgettable
+              moments. Maybe that's what makes it special to you.
 
-              But honestly, a little romance with you
-              would make an even better story. ❤️
+              But if I could choose a favourite scene, it would
+              simply be one where I get to see you smile. ❤️
             </p>
+
+            {/* Hindi song player */}
+            <div className="song-player">
+
+              <p>🎧 A little music for you</p>
+
+              <div className="song-name">
+                Suraj Hua Maddham
+              </div>
+
+              <audio controls preload="none">
+                <source
+                  src="/music/Suraj Hua Maddham K3g 320 Kbps.mp3"
+                  type="audio/mpeg"
+                />
+                Your browser does not support audio.
+              </audio>
+
+              <p className="song-caption">
+                A little melody from your favourite movie 💗
+              </p>
+
+            </div>
 
           </div>
 
+          {/* Malayalam movie */}
           <div className="movie-box">
 
-            <p>🎬 Your favourite Malayalam movie</p>
+            <p>🎬 YOUR FAVOURITE MALAYALAM MOVIE</p>
 
             <h2>Om Shanti Oshana</h2>
 
             <p className="movie-message">
-              A little fun, a little madness,
-              and a whole lot of feelings.
+              A little craziness, unexpected moments and a
+              beautiful kind of love.
 
-              Sounds like the kind of story I'd love
-              to be part of with you. 😉
+              Honestly, if our story ever becomes a movie,
+              I hope it has just as much laughter and a
+              little bit of magic. 😉
             </p>
+
+            {/* Malayalam song player */}
+            <div className="song-player">
+
+              <p>🎧 Another little favourite</p>
+
+              <div className="song-name">
+                Mounangal
+              </div>
+
+              <audio controls preload="none">
+                <source
+                  src="/music/Mounam Chorum Neram.mp3"
+                  type="audio/mpeg"
+                />
+                Your browser does not support audio.
+              </audio>
+
+              <p className="song-caption">
+                Hope you enjoy this one too! 🌷
+              </p>
+
+            </div>
 
           </div>
 
+          {/* Confession */}
           <div className="final-message">
 
-            <h2>One little confession... 💗</h2>
+            <h2>And here's my favourite part... 💗</h2>
 
             <p>
-              I don't know if I'm your favourite person,
-              but you definitely have a special place
-              in my thoughts.
+              Out of all the stories I've heard,
+              I think getting to know yours
+              would be my favourite.
             </p>
 
-            <p>
-              If life were a movie, I'd happily watch
-              every scene as long as you're in it.
-            </p>
-
-            <h3>Stay cute, Stephie. ✨</h3>
+            <h3>Stay wonderful, Stephie! 🌷</h3>
 
             <p className="signature">
               Someone who thinks you're special ❤️
