@@ -197,12 +197,15 @@ function App() {
             <h2>Om Shanti Oshana</h2>
 
             <p className="movie-message">
-              A little craziness, unexpected moments and a
-              beautiful kind of love.
+              <p className="movie-message">
+  A little craziness, unexpected moments and a
+  beautiful kind of love.
 
-              Honestly, if our story ever becomes a movie,
-              I hope it has just as much laughter and a
-              little bit of magic. 😉
+  Just like Pooja didn’t hesitate to go after what
+  her heart wanted (even if Giri took forever to
+  catch on), I figured why wait around when I can
+  just ask you out directly? 😉💗
+</p>
             </p>
 
             {/* Malayalam song player */}
