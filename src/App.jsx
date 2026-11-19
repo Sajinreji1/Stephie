@@ -8,6 +8,7 @@ function App() {
   const [confirmed, setConfirmed] = useState(false);
   const [page, setPage] = useState("welcome");
   const [selectedDate, setSelectedDate] = useState("");
+  const [notificationStatus, setNotificationStatus] = useState("");
 
   const [noPosition, setNoPosition] = useState({
     top: "15%",
@@ -50,12 +51,43 @@ function App() {
     });
   };
 
-  // Confirm coffee date
-  const confirmDate = (e) => {
+  // Confirm coffee date and send Telegram notification
+  const confirmDate = async (e) => {
     e.preventDefault();
 
-    if (selectedDate) {
-      setPage("thankyou");
+    if (!selectedDate) return;
+
+    // Show thank-you page
+    setPage("thankyou");
+    setNotificationStatus("sending");
+
+    try {
+      const response = await fetch("/api/notify", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          date: formattedDate,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        console.error(
+          "Telegram notification failed:",
+          result.message || "Unknown error"
+        );
+
+        setNotificationStatus("failed");
+      } else {
+        console.log("Telegram notification sent successfully.");
+        setNotificationStatus("sent");
+      }
+    } catch (error) {
+      console.error("Could not send Telegram notification:", error);
+      setNotificationStatus("failed");
     }
   };
 
@@ -197,15 +229,13 @@ function App() {
             <h2>Om Shanti Oshana</h2>
 
             <p className="movie-message">
-              <p className="movie-message">
-  A little craziness, unexpected moments and a
-  beautiful kind of love.
+              A little craziness, unexpected moments and a
+              beautiful kind of love.
 
-  Just like Pooja didn’t hesitate to go after what
-  her heart wanted (even if Giri took forever to
-  catch on), I figured why wait around when I can
-  just ask you out directly? 😉💗
-</p>
+              Just like Pooja didn’t hesitate to go after what
+              her heart wanted (even if Giri took forever to
+              catch on), I figured why wait around when I can
+              just ask you out directly? 😉💗
             </p>
 
             {/* Malayalam song player */}
@@ -452,6 +482,25 @@ function App() {
             Until our coffee date...
             take care, beautiful. 🌷
           </p>
+
+          {notificationStatus === "sending" && (
+            <p className="bottom-note">
+              Sending a little notification... 💌
+            </p>
+          )}
+
+          {notificationStatus === "sent" && (
+            <p className="bottom-note">
+              Notification delivered! 💗
+            </p>
+          )}
+
+          {notificationStatus === "failed" && (
+            <p className="bottom-note">
+              Your date is saved on this page, but the notification
+              could not be sent.
+            </p>
+          )}
 
         </div>
       )}
