@@ -10,7 +10,23 @@ export default async function handler(req, res) {
   try {
     let body = req.body;
 
-    // Handle string request bodies
+    // Handle Buffer request body
+    if (Buffer.isBuffer(body)) {
+      body = body.toString("utf8");
+    }
+
+    // Handle raw request stream if body is missing
+    if (body === undefined) {
+      let rawBody = "";
+
+      for await (const chunk of req) {
+        rawBody += chunk.toString();
+      }
+
+      body = rawBody;
+    }
+
+    // Parse JSON only when body is a string
     if (typeof body === "string") {
       body = JSON.parse(body);
     }
@@ -32,7 +48,7 @@ export default async function handler(req, res) {
     const chatId = process.env.TELEGRAM_CHAT_ID;
 
     if (!token || !chatId) {
-      console.error("Missing Telegram environment variables");
+      console.error("Telegram environment variables missing");
 
       return res.status(500).json({
         success: false,
@@ -62,7 +78,7 @@ export default async function handler(req, res) {
     const result = await telegramResponse.json();
 
     if (!telegramResponse.ok || !result.ok) {
-      console.error("Telegram API rejected request:", {
+      console.error("Telegram API error:", {
         status: telegramResponse.status,
         description: result.description,
       });
