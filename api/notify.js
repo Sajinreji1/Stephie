@@ -10,37 +10,39 @@ export default async function handler(req, res) {
   try {
     let body = req.body;
 
-    // Handle Buffer request body
+    console.log("BODY TYPE:", typeof body);
+    console.log("BODY VALUE:", body);
+
     if (Buffer.isBuffer(body)) {
       body = body.toString("utf8");
     }
 
-    // Handle raw request stream if body is missing
-    if (body === undefined) {
-      let rawBody = "";
-
-      for await (const chunk of req) {
-        rawBody += chunk.toString();
-      }
-
-      body = rawBody;
-    }
-
-    // Parse JSON only when body is a string
     if (typeof body === "string") {
-      body = JSON.parse(body);
+      try {
+        body = JSON.parse(body);
+      } catch {
+        return res.status(400).json({
+          success: false,
+          message: "Request body is not valid JSON",
+          receivedBody: body.slice(0, 200),
+        });
+      }
     }
 
-    const date = body?.date;
-
-    if (
-      !date ||
-      typeof date !== "string" ||
-      date.length > 100
-    ) {
+    if (!body || typeof body !== "object") {
       return res.status(400).json({
         success: false,
-        message: "Invalid date",
+        message: "Request body is missing or invalid",
+        bodyType: typeof body,
+      });
+    }
+
+    const date = body.date;
+
+    if (!date || typeof date !== "string") {
+      return res.status(400).json({
+        success: false,
+        message: "Date is missing",
       });
     }
 
@@ -48,18 +50,11 @@ export default async function handler(req, res) {
     const chatId = process.env.TELEGRAM_CHAT_ID;
 
     if (!token || !chatId) {
-      console.error("Telegram environment variables missing");
-
       return res.status(500).json({
         success: false,
-        message: "Telegram configuration is missing",
+        message: "Telegram environment variables are missing",
       });
     }
-
-    const message =
-      `💜 Stephie confirmed the coffee date!\n\n` +
-      `📅 Selected date: ${date}\n\n` +
-      `☕ Time to plan your coffee date!`;
 
     const telegramResponse = await fetch(
       `https://api.telegram.org/bot${token}/sendMessage`,
@@ -70,7 +65,10 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
           chat_id: chatId,
-          text: message,
+          text:
+            `💜 Stephie confirmed the coffee date!\n\n` +
+            `📅 Selected date: ${date}\n\n` +
+            `☕ Time to plan your coffee date!`,
         }),
       }
     );
@@ -78,10 +76,7 @@ export default async function handler(req, res) {
     const result = await telegramResponse.json();
 
     if (!telegramResponse.ok || !result.ok) {
-      console.error("Telegram API error:", {
-        status: telegramResponse.status,
-        description: result.description,
-      });
+      console.error("Telegram API error:", result.description);
 
       return res.status(502).json({
         success: false,
@@ -89,19 +84,17 @@ export default async function handler(req, res) {
       });
     }
 
-    console.log("Telegram notification sent successfully");
-
     return res.status(200).json({
       success: true,
       message: "Notification sent!",
     });
 
   } catch (error) {
-    console.error("NOTIFY FUNCTION ERROR:", error);
+    console.error("NOTIFY ERROR:", error);
 
     return res.status(500).json({
       success: false,
-      message: "Notification server error",
+      message: "Server error",
       error: error.message,
     });
   }
